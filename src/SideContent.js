@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'material-icons/iconfont/material-icons.css';
 import './SideContent.css';
+import repoImg from './GitHub-Mark-32px.png';
 
 let week = new Array('일', '월', '화', '수', '목', '금', '토');
 
@@ -14,9 +15,13 @@ class Calendar extends Component {
         </div>
       )
     } else {
+      
       return (
         <div className="_center">
           <h1>오늘의 급식</h1>
+          <a href="https://github.com/5d-jh/school-menu-api-demo-app">
+            <img src={repoImg} alt="repo" /> GitHub Repo
+          </a>
         </div>
       )
     }
