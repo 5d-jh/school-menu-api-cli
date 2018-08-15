@@ -1,14 +1,23 @@
-._center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+@media(min-width: 574px) {
+  .yr {
+    font-size: 25px;
+  }
+  .mmdd {
+    font-size: 53px;
+    color: rgb(41, 125, 246);
+  }
 }
-.yr {
-  font-size: 25px;
-}
-.mmdd {
-  font-size: 53px;
-  color: rgb(41, 125, 246);
+@media(max-width: 575px) {
+  .yr {
+    font-size: 13px;
+    padding-top: 20px;
+    padding: none;
+    margin: none;
+  }
+  .mmdd {
+    font-size: 18px;
+    color: rgb(41, 125, 246);
+    padding: none;
+    margin: none;
+  }
 }

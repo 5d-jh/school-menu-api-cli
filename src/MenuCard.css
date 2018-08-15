@@ -1,30 +1,75 @@
-._card {
-  position: absolute;
-  background-color: white;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 30px;
-  border-radius: 15px;
-  -webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
-  -moz-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
-  box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
-  width: 550px;
-  height: auto;
+@media(min-width: 1024px) {
+  ._card {
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
+    height: auto;
+  }
+  ._menuBlock {
+    padding: 15px;
+    background: #F2F2F2;
+    margin-right: 23px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    text-align: right;
+    display: inline-block;
+  }
+}
+@media(max-width: 575px) {
+  ._card {
+    background-color: transparent;
+    padding: 30px;
+    border-radius: 15px;
+    height: auto;
+  }
+  ._menuBlock {
+    font-size: 20px;
+    padding: 6px;
+    background: #F2F2F2;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    text-align: right;
+    display: inline-block;
+  }
+}
+@media(min-width: 575px) and (max-width: 1024px) {
+  ._card {
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.24);
+    height: auto;
+  }
+  ._menuBlock {
+    font-size: 20px;
+    padding: 6px;
+    background: #F2F2F2;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    text-align: center;
+    display: inline-block;
+  }
 }
 ._menuContent {
   padding-top: 10px;
   font-size: 30px;
 }
-._menuBlock {
-  padding: 15px;
-  background: #F2F2F2;
-  margin-right: 23px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  text-align: right;
-  display: inline-block;
-}
+
 ._btnWithIcon {
   vertical-align: middle !important;
   display: inline-flex !important;

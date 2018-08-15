@@ -1,11 +1,27 @@
-._right {
-  background-color: #F2F2F2;
-  height: 100vh;
-  position: relative;
+@media(min-width: 574px) {
+  ._right {
+    background-color: #F2F2F2;
+    height: 100vh;
+    position: relative;
+  }
+  ._left {
+    background-color: #F2F2F2;
+    height: 100vh;
+    position: relative;
+    overflow: scroll;
+    float: left;
+  }
 }
-._left {
-  background-color: #F2F2F2;
-  height: 100vh;
-  position: relative;
-  overflow: scroll;
+@media(max-width: 575px) {
+  ._right {
+    background-color: white;
+    position: relative;
+    height: auto;
+  }
+  ._left {
+    background-color: white;
+    position: relative;
+    overflow: scroll;
+    height: auto;
+  }
 }
