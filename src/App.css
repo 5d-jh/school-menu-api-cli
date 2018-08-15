@@ -1,0 +1,11 @@
+._right {
+  background-color: #F2F2F2;
+  height: 100vh;
+  position: relative;
+}
+._left {
+  background-color: #F2F2F2;
+  height: 100vh;
+  position: relative;
+  overflow: scroll;
+}

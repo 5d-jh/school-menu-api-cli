@@ -1,0 +1,14 @@
+._center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.yr {
+  font-size: 25px;
+}
+.mmdd {
+  font-size: 53px;
+  color: rgb(41, 125, 246);
+}
