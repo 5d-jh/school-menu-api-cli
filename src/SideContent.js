@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'material-icons/iconfont/material-icons.css';
-import './Calendar.css';
+import './SideContent.css';
 
 let week = new Array('일', '월', '화', '수', '목', '금', '토');
 

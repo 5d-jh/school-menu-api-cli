@@ -93,11 +93,12 @@ class AppEntry extends Component {
   }
 
   saveData = (e) => {
-    const { cookies } = this.props;
     e.preventDefault();
+
+    const { cookies } = this.props;
     cookies.set('region', this.state.region);
     cookies.set('school_code', this.state.school_code);
-    console.log(document.cookie);
+    
     this.render();
   }
 

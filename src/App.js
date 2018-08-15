@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import AppEntry from './AppEntry';
-import Calendar from './Calendar';
+import SideContent from './SideContent';
 
 class App extends Component {
   state = {
@@ -27,7 +27,7 @@ class App extends Component {
       <Container fluid={true}>
         <Row>
           <Col sm="4" className="_left">
-            <Calendar date={this.state.date} />
+            <SideContent date={this.state.date} />
           </Col>
           <Col sm="8" className="_right">
             <CookiesProvider>
