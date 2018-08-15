@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Nav, NavItem, NavLink, TabPane, TabContent, Button } from 'reactstrap';
 import classnames from 'classnames';
-import axios from 'axios';
 import './MenuCard.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'material-icons/iconfont/material-icons.css';
@@ -18,10 +17,9 @@ class FetchMenu extends Component {
     let date = this.date.getDate()
     this.props.onDateChange(this.date)
     let url = `https://schoolmenukr.ml/api/${this.props.region}/${this.props.schoolCode}?date=${date}`;
-    return axios.get(url)
-    .then(response => {
-      return response.data[0];
-    });
+    return fetch(url)
+    .then(response => response.json())
+    .then(response => response[0]);
   }
 
    renderMenu = async() => {
