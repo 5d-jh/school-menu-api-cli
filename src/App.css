@@ -8,7 +8,6 @@
     background-color: #F2F2F2;
     height: 100vh;
     position: relative;
-    overflow: scroll;
     float: left;
   }
 }
@@ -21,7 +20,6 @@
   ._left {
     background-color: white;
     position: relative;
-    overflow: scroll;
     height: auto;
   }
 }
