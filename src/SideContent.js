@@ -10,7 +10,7 @@ class Calendar extends Component {
       return (
         <div className="_center">
           <p className="yr block">{this.props.date.year}</p>
-          <p className="mmdd"><p className="block">{this.props.date.month}월 {this.props.date.date}일</p><p className="block"> {week[this.props.date.day]}요일</p> </p>
+          <p className="mmdd"><p className="block">{this.props.date.month}월 {this.props.date.date}일</p><p className="block">&nbsp;{week[this.props.date.day]}요일</p> </p>
         </div>
       )
     } else {
