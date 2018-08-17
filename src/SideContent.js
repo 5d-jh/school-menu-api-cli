@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'material-icons/iconfont/material-icons.css';
 import './SideContent.css';
 
-let week = new Array('일', '월', '화', '수', '목', '금', '토');
+let week = ['일', '월', '화', '수', '목', '금', '토'];
 
 class Calendar extends Component {
   render() {
@@ -10,11 +10,10 @@ class Calendar extends Component {
       return (
         <div className="_center">
           <p className="yr block">{this.props.date.year}</p>
-          <p className="mmdd"><p className="block">{this.props.date.month}월 {this.props.date.date}일</p><p className="block">&nbsp;{week[this.props.date.day]}요일</p> </p>
+          <p className="mmdd"><span className="block">{this.props.date.month}월 {this.props.date.date}일</span><span className="block">&nbsp;{week[this.props.date.day]}요일</span> </p>
         </div>
       )
     } else {
-      
       return (
         <div className="_center">
           <h1>오늘의 급식</h1>

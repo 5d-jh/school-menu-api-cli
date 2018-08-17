@@ -19,7 +19,7 @@ class App extends Component {
         date: date.getDate(),
         day: date.getDay()
       }
-    })
+    });
   }
 
   render() {

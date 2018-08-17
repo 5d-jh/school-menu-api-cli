@@ -5,43 +5,11 @@ import './MenuCard.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'material-icons/iconfont/material-icons.css';
 
-class FetchMenu extends Component {
+class MenuCard extends Component {
   state = {
-    menu: null,
     activeTab: '2'
   }
-
-  date = new Date();
-
-  fetchMenu = () => {
-    let date = this.date.getDate()
-    this.props.onDateChange(this.date)
-    let url = `https://schoolmenukr.ml/api/${this.props.region}/${this.props.schoolCode}?date=${date}`;
-    return fetch(url)
-    .then(response => response.json())
-    .then(response => response[0]);
-  }
-
-   renderMenu = async() => {
-    let menu = await this.fetchMenu();
-    this.setState({
-      menu: menu
-    });
-  }
-
-  updateToNextMenu = () => {
-    this.date.setDate(this.date.getDate() + 1);
-    this.renderMenu();
-  }
-  updateToPrevMenu = () => {
-    this.date.setDate(this.date.getDate() - 1);
-    this.renderMenu();
-  }
   
-  componentDidMount() {
-    this.renderMenu();
-  }
-
   toggleTab = (event) => {
     let tab = event.target.name;
     if (this.state.activeTab !== tab) {
@@ -49,6 +17,13 @@ class FetchMenu extends Component {
         activeTab: tab
       });
     }
+  }
+
+  changeDateToTomorrow = () => {
+    this.props.onDateChange(1)
+  }
+  changeDateToYesterday = () => {
+    this.props.onDateChange(-1)
   }
 
   render() {
@@ -87,7 +62,7 @@ class FetchMenu extends Component {
           <TabPane tabId="1">
             <div className="_menuContent">
               {
-                this.state.menu ? (new Array(this.state.menu.breakfast))[0].map(
+                this.props.menu ? (new Array(this.props.menu.breakfast))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
                 ) : '불러오는 중..'
               }
@@ -96,7 +71,7 @@ class FetchMenu extends Component {
           <TabPane tabId="2">
             <div className="_menuContent">
               {
-                this.state.menu ? (new Array(this.state.menu.lunch))[0].map(
+                this.props.menu ? (new Array(this.props.menu.lunch))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
                 ) : '불러오는 중..'
               }
@@ -105,7 +80,7 @@ class FetchMenu extends Component {
           <TabPane tabId="3">
             <div className="_menuContent">
               {
-                this.state.menu ? (new Array(this.state.menu.dinner))[0].map(
+                this.props.menu ? (new Array(this.props.menu.dinner))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
                 ) : '불러오는 중..'
               }
@@ -113,25 +88,22 @@ class FetchMenu extends Component {
           </TabPane>
         </TabContent>
         <div>
-          <Button color="link" onClick={this.updateToPrevMenu} className="_btnWithIcon">
-              <i className="material-icons">
-                navigate_before
-              </i>
-              어제
+          <Button color="link" onClick={this.changeDateToYesterday} className="_btnWithIcon">
+            <i className="material-icons">
+              navigate_before
+            </i>
+            어제
           </Button>
-          <Button color="link" onClick={this.updateToNextMenu} className="_btnWithIcon">
-            <span>
-              내일
-            </span>
+          <Button color="link" onClick={this.changeDateToTomorrow} className="_btnWithIcon">
+            내일
             <i className="material-icons">
               navigate_next
             </i>
           </Button>
         </div>
-        
       </div>
     )
   }
 }
 
-export default FetchMenu;
+export default MenuCard;

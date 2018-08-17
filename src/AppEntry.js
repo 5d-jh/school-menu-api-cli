@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, InputGroup, InputGroupButtonDropdown, Button, Form, Input, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 import { withCookies, Cookies } from 'react-cookie';
-import MenuCard from './MenuCard';
+import FetchMenu from './FetchMenu';
 import 'bootstrap/dist/css/bootstrap.css';
 import './AppEntry.css';
 
@@ -110,7 +110,7 @@ class AppEntry extends Component {
     const { cookies } = this.props;
     if (cookies.get('region') && cookies.get('school_code')) {
       return(
-        <MenuCard region={cookies.get('region')} schoolCode={cookies.get('school_code')} onDateChange={this.handleDateChange} />
+        <FetchMenu region={cookies.get('region')} schoolCode={cookies.get('school_code')} onDateChange={this.handleDateChange} />
       )
     } else {
       return(
