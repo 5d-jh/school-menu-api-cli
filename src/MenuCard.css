@@ -1,4 +1,13 @@
 @media(min-width: 1024px) {
+  ._menuContent {
+    width: 420px;
+    height: 220px;
+    overflow: scroll;
+    margin-top: 3px;
+    padding-top: 7px;
+    font-size: 30px;
+    border-bottom: 1px solid #E8E8E8;
+  }  
   ._card {
     position: absolute;
     background-color: white;
@@ -23,6 +32,11 @@
   }
 }
 @media(max-width: 575px) {
+  ._menuContent {
+    padding-top: 10px;
+    font-size: 30px;
+    border-bottom: black;
+  }  
   ._card {
     background-color: transparent;
     padding: 30px;
@@ -41,6 +55,14 @@
   }
 }
 @media(min-width: 575px) and (max-width: 1024px) {
+  ._menuContent {
+    width: 300px;
+    height: 220px;
+    overflow: scroll;
+    padding-top: 10px;
+    font-size: 30px;
+    border-bottom: #F2F2F2;
+  }  
   ._card {
     position: absolute;
     background-color: white;
@@ -65,10 +87,7 @@
     display: inline-block;
   }
 }
-._menuContent {
-  padding-top: 10px;
-  font-size: 30px;
-}
+
 
 ._btnWithIcon {
   vertical-align: middle !important;

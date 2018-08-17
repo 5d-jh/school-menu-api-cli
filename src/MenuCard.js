@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Nav, NavItem, NavLink, TabPane, TabContent, Button } from 'reactstrap';
+import ContentLoader from 'react-content-loader';
 import classnames from 'classnames';
 import './MenuCard.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -25,6 +26,14 @@ class MenuCard extends Component {
   changeDateToYesterday = () => {
     this.props.onDateChange(-1)
   }
+
+  loadingElement = <ContentLoader
+                    height={200}
+                    speed={0.5}
+                    primaryColor="#F2F2F2"
+                    secondaryColor="#F7F7F7"
+                  >
+                  </ContentLoader>
 
   render() {
     return (
@@ -64,7 +73,7 @@ class MenuCard extends Component {
               {
                 this.props.menu ? (new Array(this.props.menu.breakfast))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
-                ) : '불러오는 중..'
+                ) : this.loadingElement
               }
             </div>
           </TabPane>
@@ -73,7 +82,7 @@ class MenuCard extends Component {
               {
                 this.props.menu ? (new Array(this.props.menu.lunch))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
-                ) : '불러오는 중..'
+                ) : this.loadingElement
               }
             </div>
           </TabPane>
@@ -82,7 +91,7 @@ class MenuCard extends Component {
               {
                 this.props.menu ? (new Array(this.props.menu.dinner))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
-                ) : '불러오는 중..'
+                ) : this.loadingElement
               }
             </div>
           </TabPane>
