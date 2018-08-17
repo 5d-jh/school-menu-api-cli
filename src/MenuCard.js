@@ -28,11 +28,15 @@ class MenuCard extends Component {
   }
 
   loadingElement = <ContentLoader
-                    height={200}
-                    speed={0.5}
                     primaryColor="#F2F2F2"
                     secondaryColor="#F7F7F7"
+                    speed={1}
+                    height={170}
                   >
+                    <rect x="0" y="0" rx="11" ry="11" rx="11" ry="11" width="125" height="70" />
+                    <rect x="145" y="0" rx="11" ry="11" width="140" height="70" />
+                    <rect x="0" y="85" rx="11" ry="11" width="180" height="70" />
+                    <rect x="200" y="85" rx="11" ry="11" width="115" height="70" />
                   </ContentLoader>
 
   render() {

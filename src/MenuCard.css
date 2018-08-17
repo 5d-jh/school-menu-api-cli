@@ -2,12 +2,15 @@
   ._menuContent {
     width: 420px;
     height: 220px;
-    overflow: scroll;
+    overflow-y: scroll;
     margin-top: 3px;
     padding-top: 7px;
     font-size: 30px;
     border-bottom: 1px solid #E8E8E8;
-  }  
+  }
+  ._menuContent::-webkit-scrollbar {
+    display: none;
+  }
   ._card {
     position: absolute;
     background-color: white;
