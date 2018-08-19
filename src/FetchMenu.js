@@ -12,11 +12,28 @@ class FetchMenu extends Component {
   date = new Date();
 
   fetchMenu = () => {
+    let year = this.date.getFullYear();
     let date = this.date.getDate();
+    let month = this.date.getMonth() + 1;
     this.props.onDateChange(this.date);
 
-    let url = `https://schoolmenukr.ml/api/${this.props.region}/${this.props.schoolCode}?date=${date}`;
-    return fetch(url)
+    let url = `https://schoolmenukr.ml/api`;
+    let init = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        region: this.props.region,
+        school_code: this.props.schoolCode,
+        ymd: {
+          year: year,
+          month: month,
+          date: date
+        }
+      })
+    }
+    return fetch(url, init)
     .then(response => {
       this.setState({
         errorOccurred: false
