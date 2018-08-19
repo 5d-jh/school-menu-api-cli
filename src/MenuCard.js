@@ -33,7 +33,7 @@ class MenuCard extends Component {
                     speed={1}
                     height={170}
                   >
-                    <rect x="0" y="0" rx="11" ry="11" rx="11" ry="11" width="125" height="70" />
+                    <rect x="0" y="0" rx="11" ry="11" width="125" height="70" />
                     <rect x="145" y="0" rx="11" ry="11" width="140" height="70" />
                     <rect x="0" y="85" rx="11" ry="11" width="180" height="70" />
                     <rect x="200" y="85" rx="11" ry="11" width="115" height="70" />
