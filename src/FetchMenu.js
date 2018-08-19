@@ -5,10 +5,8 @@ import MenuError from './MenuError';
 class FetchMenu extends Component {
   state = {
     menu: null,
-    error: {
-      occurred: false,
-      info: ''
-    }
+    errorOccurred: false,
+    errorInfo: ''
   }
 
   date = new Date();
@@ -16,16 +14,20 @@ class FetchMenu extends Component {
   fetchMenu = () => {
     let date = this.date.getDate();
     this.props.onDateChange(this.date);
+
     let url = `https://schoolmenukr.ml/api/${this.props.region}/${this.props.schoolCode}?date=${date}`;
     return fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      this.setState({
+        errorOccurred: false
+      });
+      return response.json()
+    })
     .then(response => response[0])
     .catch((err) => {
-      console.log(err)
       this.setState({
-        error: {
-          occurred: true
-        }
+        errorOccurred: true,
+        errorInfo: err
       });
     });
   }
@@ -33,10 +35,7 @@ class FetchMenu extends Component {
   getMenu = async() => {
     let menu = await this.fetchMenu();
     this.setState({
-      menu: menu,
-      error: {
-        occurred: menu ? false : true
-      }
+      menu: menu
     });
     
   }
@@ -49,12 +48,19 @@ class FetchMenu extends Component {
     this.getMenu();
   }
 
+  componentDidCatch(err, info) {
+    this.setState({
+      errorOccurred: true,
+      errorInfo: err
+    });
+  }
+
   componentDidMount() {
     this.getMenu();
   }
 
   render() {
-    if (!this.state.error.occurred) {
+    if (!this.state.errorOccurred) {
       return (
         <MenuCard
           menu={this.state.menu}
