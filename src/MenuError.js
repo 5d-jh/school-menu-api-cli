@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Alert, Button } from 'reactstrap';
 import './MenuCard.css';
 import 'material-icons/iconfont/material-icons.css';

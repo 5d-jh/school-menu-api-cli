@@ -1,71 +1,18 @@
 import React, { Component } from 'react';
 import { Badge, InputGroup, InputGroupButtonDropdown, Button, Form, Input, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
-import { withCookies, Cookies } from 'react-cookie';
+import { withCookies } from 'react-cookie';
 import FetchMenu from './FetchMenu';
 import 'bootstrap/dist/css/bootstrap.css';
 import './AppEntry.css';
 
-let regions = [
-  {
-    name: '서울',
-    value: 'sen'
-  }, {
-    name: '인천',
-    value: 'ice'
-  }, {
-    name: '부산',
-    value: 'pen'
-  }, {
-    name: '광주',
-    value: 'gen'
-  }, {
-    name: '대전',
-    value: 'dje'
-  }, {
-    name: '대구',
-    value: 'dge'
-  }, {
-    name: '세종',
-    value: 'sje'
-  }, {
-    name: '울산',
-    value: 'use'
-  }, {
-    name: '경기',
-    value: 'goe'
-  }, {
-    name: '강원',
-    value: 'kwe'
-  }, {
-    name: '충북',
-    value: 'cbe'
-  }, {
-    name: '충남',
-    value: 'cne'
-  }, {
-    name: '경북',
-    value: 'gbe'
-  }, {
-    name: '경남',
-    value: 'gne'
-  }, {
-    name: '전북',
-    value: 'jbe'
-  }, {
-    name: '전남',
-    value: 'jne'
-  }, {
-    name: '제주',
-    value: 'jje'
-  },
-];
+let regions = [{name: '서울', value: 'sen'}, {name: '인천', value: 'ice'}, {name: '부산', value: 'pen'},
+               {name: '광주', value: 'gen'}, {name: '대전', value: 'dje'}, {name: '대구', value: 'dge'},
+               {name: '세종', value: 'sje'}, {name: '울산', value: 'use'}, {name: '경기', value: 'goe'},
+               {name: '강원', value: 'kwe'}, {name: '충북', value: 'cbe'}, {name: '충남', value: 'cne'},
+               {name: '경북', value: 'gbe'}, {name: '경남', value: 'gne'}, {name: '전북', value: 'jbe'},
+               {name: '전남', value: 'jne'}, {name: '제주', value: 'jje'}];
 
 class AppEntry extends Component {
-  constructor(props) {
-    super(props);
- 
-    // const { cookies } = props;
-  }
   state = {
     dropdownOpen: false,
     region: null,
@@ -124,7 +71,7 @@ class AppEntry extends Component {
         <div className="_center">
           <section>
             <h6><Badge>STEP 01</Badge> 학교 코드를 찾으세요</h6>
-            <iframe src="https://www.meatwatch.go.kr/biz/bm/sel/schoolListPopup.do" width="100%"></iframe>
+            <iframe title="findSchoolCode" src="https://www.meatwatch.go.kr/biz/bm/sel/schoolListPopup.do" width="100%"></iframe>
           </section>
           <section>
             <h6><Badge>STEP 02</Badge> 필요한 정보를 입력하세요</h6>
