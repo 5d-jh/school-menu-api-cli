@@ -16,7 +16,8 @@
 }
 @media(max-width: 575px) {
   ._center {
-    text-align: left;
+    margin-top: 5px;
+    text-align: center;
   }
   .yr {
     font-size: 11px;
