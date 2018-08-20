@@ -56,6 +56,12 @@ class AppEntry extends Component {
     this.render();
   }
 
+  removeCookies = () => {
+    const { cookies } = this.props;
+    cookies.remove('region');
+    cookies.remove('school_code');
+  }
+
   handleDateChange = (date) => {
     this.props.onDateChange(date);
   }
@@ -64,7 +70,7 @@ class AppEntry extends Component {
     const { cookies } = this.props;
     if (cookies.get('region') && cookies.get('school_code')) {
       return(
-        <FetchMenu region={cookies.get('region')} schoolCode={cookies.get('school_code')} onDateChange={this.handleDateChange} />
+        <FetchMenu region={cookies.get('region')} onUserExit={this.removeCookies} schoolCode={cookies.get('school_code')} onDateChange={this.handleDateChange} />
       )
     } else {
       return(

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MenuCard from './MenuCard';
 import MenuError from './MenuError';
+import SubDropdownMenu from './SubDropdownMenu';
 
 class FetchMenu extends Component {
   state = {
@@ -79,10 +80,14 @@ class FetchMenu extends Component {
   render() {
     if (!this.state.errorOccurred) {
       return (
-        <MenuCard
-          menu={this.state.menu}
-          onDateChange={this.changeDate}
-        />
+        <div>
+          <SubDropdownMenu schoolCode={this.props.schoolCode} onUserExit={this.props.onUserExit} />
+          <MenuCard
+            menu={this.state.menu}
+            onDateChange={this.changeDate}
+          />
+        </div>
+        
       )
     } else {
       return (

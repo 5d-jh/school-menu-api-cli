@@ -1,0 +1,15 @@
+.dropdownRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  position: fixed;
+}
+.btnWithIcon {
+  vertical-align: middle !important;
+  display: inline-flex !important;
+  text-decoration: none !important;
+}
+.danger {
+  color: red;
+}
