@@ -17,7 +17,7 @@ class Calendar extends Component {
     } else {
       return (
         <div className="_center">
-          <h1>오늘의 급식</h1>
+          <h2>오늘의 급식</h2>
           <a href="https://github.com/5d-jh/school-menu-api-demo-app">
             <img src={GitHubImage} alt="repo" /> GitHub Repo
           </a>
