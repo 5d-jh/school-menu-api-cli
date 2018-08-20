@@ -44,7 +44,7 @@
   }  
   ._card {
     background-color: transparent;
-    padding: 30px;
+    padding: none;
     border-radius: 15px;
     height: auto;
   }
