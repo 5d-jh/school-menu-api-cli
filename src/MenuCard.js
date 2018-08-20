@@ -101,13 +101,13 @@ class MenuCard extends Component {
           </TabPane>
         </TabContent>
         <div>
-          <Button color="link" onClick={this.changeDateToYesterday} className="_btnWithIcon">
+          <Button color="link" onClick={this.changeDateToYesterday} className="_btnWithIcon" disabled={this.props.menu ? false : true}>
             <i className="material-icons">
               navigate_before
             </i>
             어제
           </Button>
-          <Button color="link" onClick={this.changeDateToTomorrow} className="_btnWithIcon">
+          <Button color="link" onClick={this.changeDateToTomorrow} className="_btnWithIcon" disabled={this.props.menu ? false : true}>
             내일
             <i className="material-icons">
               navigate_next
