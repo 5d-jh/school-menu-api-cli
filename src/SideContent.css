@@ -20,9 +20,18 @@
     padding: none;
     margin: none;
   }
+  .mainTitle {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
 }
 .block {
   display: inline-block;
   word-break: keep-all;
   text-align: center;
+}
+.btnWithIcon {
+  vertical-align: middle !important;
+  display: inline-flex !important;
+  text-decoration: none !important;
 }

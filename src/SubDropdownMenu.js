@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import 'material-icons/iconfont/material-icons.css';
 import './SubDropdownMenu.css';
-import GitHubImage from './GitHub-Mark-32px.png';
 
 class SubDropdownMenu extends Component {
   state = {
@@ -24,7 +23,7 @@ class SubDropdownMenu extends Component {
         <DropdownMenu right>
           <DropdownItem header>{this.props.schoolCode}</DropdownItem>
           <DropdownItem divider />
-          <DropdownItem className="btnWithIcon" target="_blank" href="https://github.com/5d-jh/school-menu-api-demo-app"><img src={GitHubImage} alt="GitHub Logo" height="20px" width="20px" />&nbsp;&nbsp;GitHub</DropdownItem>
+          <DropdownItem className="btnWithIcon" target="_blank" href="https://github.com/5d-jh/school-menu-api-demo-app"><img src={process.env.PUBLIC_URL + "GitHub-Mark-32px.png"} alt="GitHub Icon" height="20px" width="20px" />&nbsp;&nbsp;GitHub</DropdownItem>
           <DropdownItem className="btnWithIcon" onClick={this.props.onUserExit}><i className="material-icons">exit_to_app</i>&nbsp;나가기</DropdownItem>
         </DropdownMenu>
       </Dropdown>

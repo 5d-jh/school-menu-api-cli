@@ -1,6 +1,6 @@
 {
   "name": "school-menu-api-demo-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.1.3",
@@ -23,5 +23,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "http://5d-jh.github.io/school-menu-api-demo-app"
+  "homepage": "https://5d-jh.github.io/school-menu-api-demo-app"
 }

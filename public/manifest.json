@@ -1,15 +1,15 @@
 {
   "short_name": "오늘의 급식",
-  "name": "오늘 급식 보기",
+  "name": "오늘의 급식",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "icons8-meal-50.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#E8E8E8",
   "background_color": "#ffffff"
 }
