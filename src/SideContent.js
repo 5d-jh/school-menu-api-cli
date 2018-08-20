@@ -17,12 +17,12 @@ class Calendar extends Component {
       return (
         <div className="_center mainTitle">
           <p>
-            <img src={process.env.PUBLIC_URL + "icons8-meal-100.png"} alt="Main App Icon" width="50px" />
+            <img src={process.env.PUBLIC_URL + "/icons8-meal-100.png"} alt="Main App Icon" width="50px" />
           </p>
           <h2><span className="btnWithIcon">오늘의 급식</span></h2>
           <hr />
           <a href="https://github.com/5d-jh/school-menu-api-demo-app">
-            <img src={process.env.PUBLIC_URL + "GitHub-Mark-32px.png"} alt="GitHub Icon" /> GitHub Repo
+            <img src={process.env.PUBLIC_URL + "/GitHub-Mark-32px.png"} alt="GitHub Icon" /> GitHub Repo
           </a>
         </div>
       )
