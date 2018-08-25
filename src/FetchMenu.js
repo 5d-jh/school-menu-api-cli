@@ -19,13 +19,14 @@ class FetchMenu extends Component {
     this.props.onDateChange(this.date);
 
     let url = `https://schoolmenukr.ml/api`;
+    
     let init = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        region: this.props.region,
+        school_type: this.props.schoolType,
         school_code: this.props.schoolCode,
         ymd: {
           year: year,
@@ -33,7 +34,7 @@ class FetchMenu extends Component {
           date: date
         }
       })
-    }
+    };
     return fetch(url, init)
     .then(response => {
       this.setState({
@@ -41,7 +42,7 @@ class FetchMenu extends Component {
       });
       return response.json()
     })
-    .then(response => response[0])
+    .then(response => response.menu)
     .catch((err) => {
       this.setState({
         errorOccurred: true,

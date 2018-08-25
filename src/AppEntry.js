@@ -5,19 +5,17 @@ import FetchMenu from './FetchMenu';
 import 'bootstrap/dist/css/bootstrap.css';
 import './AppEntry.css';
 
-let regions = [{name: '서울', value: 'sen'}, {name: '인천', value: 'ice'}, {name: '부산', value: 'pen'},
-               {name: '광주', value: 'gen'}, {name: '대전', value: 'dje'}, {name: '대구', value: 'dge'},
-               {name: '세종', value: 'sje'}, {name: '울산', value: 'use'}, {name: '경기', value: 'goe'},
-               {name: '강원', value: 'kwe'}, {name: '충북', value: 'cbe'}, {name: '충남', value: 'cne'},
-               {name: '경북', value: 'gbe'}, {name: '경남', value: 'gne'}, {name: '전북', value: 'jbe'},
-               {name: '전남', value: 'jne'}, {name: '제주', value: 'jje'}];
+let schoolTypes = [{name: '유치원', value: 'kindergarten'},
+                   {name: '초등학교', value: 'elementary'},
+                   {name: '중학교', value: 'middle'},
+                   {name: '고등학교', value: 'high'}];
 
 class AppEntry extends Component {
   state = {
     dropdownOpen: false,
-    region: null,
-    school_code: null,
-    regionName: '지역을 선택하세요'
+    schoolCode: null,
+    schoolType: null,
+    schoolTypeName: '학교 유형'
   };
 
   toggle = () => {
@@ -26,16 +24,16 @@ class AppEntry extends Component {
     }));
   }
 
-  selectRegion = (event) => {
+  selectSchoolType = (event) => {
     this.setState({
-      region: event.target.value,
-      regionName: event.target.name
+      schoolType: event.target.value,
+      schoolTypeName: event.target.name
     });
   }
 
   updateSchoolCode = (event) => {
     this.setState({
-      school_code: event.target.value
+      schoolCode: event.target.value
     });
   }
 
@@ -46,10 +44,10 @@ class AppEntry extends Component {
     date.setDate(date.getDate() + 100);
 
     const { cookies } = this.props;
-    cookies.set('region', this.state.region, {
+    cookies.set('schoolType', this.state.schoolType, {
       expires: date
     });
-    cookies.set('school_code', this.state.school_code, {
+    cookies.set('schoolCode', this.state.schoolCode, {
       expires: date
     });
     
@@ -58,8 +56,8 @@ class AppEntry extends Component {
 
   removeCookies = () => {
     const { cookies } = this.props;
-    cookies.remove('region');
-    cookies.remove('school_code');
+    cookies.remove('schoolType');
+    cookies.remove('schoolCode');
   }
 
   handleDateChange = (date) => {
@@ -68,9 +66,9 @@ class AppEntry extends Component {
 
   render() {
     const { cookies } = this.props;
-    if (cookies.get('region') && cookies.get('school_code')) {
+    if (cookies.get('schoolType') && cookies.get('schoolCode')) {
       return(
-        <FetchMenu region={cookies.get('region')} onUserExit={this.removeCookies} schoolCode={cookies.get('school_code')} onDateChange={this.handleDateChange} />
+        <FetchMenu schoolType={cookies.get('schoolType')} onUserExit={this.removeCookies} schoolCode={cookies.get('schoolCode')} onDateChange={this.handleDateChange} />
       )
     } else {
       return(
@@ -85,11 +83,11 @@ class AppEntry extends Component {
               <InputGroup>
                 <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                   <DropdownToggle caret outline>
-                    {this.state.regionName}
+                    {this.state.schoolTypeName}
                   </DropdownToggle>
                   <DropdownMenu>
                     {
-                      regions.map(region => <DropdownItem value={region.value} name={region.name} onClick={this.selectRegion}>{region.name}</DropdownItem>)
+                      schoolTypes.map(type => <DropdownItem value={type.value} name={type.name} onClick={this.selectSchoolType}>{type.name}</DropdownItem>)
                     }
                   </DropdownMenu>
                 </InputGroupButtonDropdown>
