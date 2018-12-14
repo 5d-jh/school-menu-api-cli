@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Nav, NavItem, NavLink, TabPane, TabContent, Button } from 'reactstrap';
-import ContentLoader from 'react-content-loader';
 import classnames from 'classnames';
 import './MenuCard.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -26,18 +25,6 @@ class MenuCard extends Component {
   changeDateToYesterday = () => {
     this.props.onDateChange(-1)
   }
-
-  loadingElement = <ContentLoader
-                    primaryColor="#F2F2F2"
-                    secondaryColor="#F7F7F7"
-                    speed={1}
-                    height={170}
-                  >
-                    <rect x="0" y="0" rx="11" ry="11" width="125" height="70" />
-                    <rect x="145" y="0" rx="11" ry="11" width="140" height="70" />
-                    <rect x="0" y="85" rx="11" ry="11" width="180" height="70" />
-                    <rect x="200" y="85" rx="11" ry="11" width="115" height="70" />
-                  </ContentLoader>
 
   render() {
     return (
@@ -77,7 +64,7 @@ class MenuCard extends Component {
               {
                 this.props.menu ? (new Array(this.props.menu.breakfast))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
-                ) : this.loadingElement
+                ) : null
               }
             </div>
           </TabPane>
@@ -86,7 +73,7 @@ class MenuCard extends Component {
               {
                 this.props.menu ? (new Array(this.props.menu.lunch))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
-                ) : this.loadingElement
+                ) : null
               }
             </div>
           </TabPane>
@@ -95,7 +82,7 @@ class MenuCard extends Component {
               {
                 this.props.menu ? (new Array(this.props.menu.dinner))[0].map(
                   (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
-                ) : this.loadingElement
+                ) : null
               }
             </div>
           </TabPane>
@@ -113,6 +100,12 @@ class MenuCard extends Component {
               navigate_next
             </i>
           </Button>
+          {!this.props.menu ? <Button color="link" onClick={this.changeDateToTomorrow} className="_btnWithIcon" disabled={true}>
+            <i className="material-icons">
+              refresh
+            </i>
+            불러오는 중
+          </Button> : null}
         </div>
       </div>
     )
