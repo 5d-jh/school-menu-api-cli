@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
-import { Badge, InputGroup, InputGroupButtonDropdown, Button, Form, Input, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
+import { ListGroupItem, ListGroup, Form, Input, Badge } from 'reactstrap';
 import { withCookies } from 'react-cookie';
 import FetchMenu from './FetchMenu';
 import 'bootstrap/dist/css/bootstrap.css';
 import './AppEntry.css';
 
-let schoolTypes = [{name: '유치원', value: 'kindergarten'},
-                   {name: '초등학교', value: 'elementary'},
-                   {name: '중학교', value: 'middle'},
-                   {name: '고등학교', value: 'high'}];
-
 class AppEntry extends Component {
   state = {
-    dropdownOpen: false,
-    schoolCode: null,
-    schoolType: null,
-    schoolTypeName: '학교 유형'
+    schoolInfoQuery: null,
+    schoolInfos: null,
+    badgeColor: 'primary'
   };
 
   toggle = () => {
@@ -31,25 +25,47 @@ class AppEntry extends Component {
     });
   }
 
-  updateSchoolCode = (event) => {
+  updateSchoolInfoQuery = (event) => {
     this.setState({
-      schoolCode: event.target.value
+      schoolInfoQuery: event.target.value
     });
   }
 
-  saveData = (e) => {
-    e.preventDefault();
+  saveData = (event) => {
+    event.preventDefault();
 
     let date = new Date();
     date.setDate(date.getDate() + 100);
 
+    let schoolType = null;
+    const schoolName = this.state.schoolInfoQuery;
+    const matchKeywords = {
+      '고': 'high',
+      '중': 'middle',
+      '초': 'elementary'
+    };
+    for (let i = schoolName.length-1; i >= 0; i--) {
+      for (const keyword in matchKeywords) {
+        if (schoolName[i].match(keyword)) {
+          schoolType = matchKeywords[keyword];
+        }
+      }
+    }
+    if (!schoolType) {
+      return this.setState({
+        badgeColor: 'warning'
+      });
+    }
+
     const { cookies } = this.props;
-    cookies.set('schoolType', this.state.schoolType, {
+    cookies.set('schoolType', schoolType, {
       expires: date
     });
-    cookies.set('schoolCode', this.state.schoolCode, {
+    cookies.set('schoolCode', event.target.value, {
       expires: date
     });
+
+    this.setState({schoolInfos: null});
     
     this.render();
   }
@@ -64,6 +80,17 @@ class AppEntry extends Component {
     this.props.onDateChange(date);
   }
 
+  fetchSchoolInfos = (event) => {
+    event.preventDefault();
+
+    const url = 'https://code.schoolmenukr.ml/api?q='+this.state.schoolInfoQuery;
+    fetch(url)
+    .then(response => response.json())
+    .then(data => data.school_infos)
+    .then(schoolInfos => { this.setState({schoolInfos}) })
+    .catch(error => console.error(error));
+  }
+
   render() {
     const { cookies } = this.props;
     if (cookies.get('schoolType') && cookies.get('schoolCode')) {
@@ -71,33 +98,19 @@ class AppEntry extends Component {
         <FetchMenu schoolType={cookies.get('schoolType')} onUserExit={this.removeCookies} schoolCode={cookies.get('schoolCode')} onDateChange={this.handleDateChange} />
       )
     } else {
-      return(
+      return (
         <div className="_center">
-          <section>
-            <h6><Badge>STEP 01</Badge> 학교 코드를 찾으세요</h6>
-            <iframe title="findSchoolCode" src="https://www.meatwatch.go.kr/biz/bm/sel/schoolListPopup.do" width="100%"></iframe>
-          </section>
-          <section>
-            <h6><Badge>STEP 02</Badge> 필요한 정보를 입력하세요</h6>
-            <Form onSubmit={this.saveData}>
-              <InputGroup>
-                <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                  <DropdownToggle caret outline>
-                    {this.state.schoolTypeName}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {
-                      schoolTypes.map(type => <DropdownItem value={type.value} name={type.name} onClick={this.selectSchoolType}>{type.name}</DropdownItem>)
-                    }
-                  </DropdownMenu>
-                </InputGroupButtonDropdown>
-                <Input placeholder="코드를 입력하세요" onChange={this.updateSchoolCode} />
-              </InputGroup>
-              <p>
-                <Button type="submit" color="primary" className="_doneBtn">완료</Button>
-              </p>
-            </Form>
-          </section>
+          <Badge color={this.state.badgeColor}>주의사항: 검색어에 '초', '중', '고'가 포함되어야 합니다</Badge>
+          <Form onSubmit={this.fetchSchoolInfos}>
+            <Input placeholder="학교 이름을 검색하세요" onChange={this.updateSchoolInfoQuery} />
+          </Form>
+          <ListGroup className="_schoolInfoList">
+            {
+              this.state.schoolInfos
+              ? this.state.schoolInfos.map((info, i) => <ListGroupItem onClick={this.saveData} value={info.code} key={i} tag="button" action>{info.address}</ListGroupItem>)
+              : ''
+            }
+          </ListGroup>
         </div>
       )
     }
