@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { ListGroupItem, ListGroup, Form, Input, Badge } from 'reactstrap';
+import { 
+  Button,
+  Dropdown, DropdownItem, DropdownMenu, DropdownToggle,
+  Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { withCookies } from 'react-cookie';
 import FetchMenu from './FetchMenu';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -9,7 +12,9 @@ class AppEntry extends Component {
   state = {
     schoolInfoQuery: null,
     schoolInfos: null,
-    badgeColor: 'primary'
+    badgeColor: 'primary',
+    dropdownOpen: false,
+    submitButtonDisabled: false
   };
 
   toggle = () => {
@@ -32,36 +37,21 @@ class AppEntry extends Component {
   }
 
   saveData = (event) => {
+    const { schoolInfos } = this.state;
+
     event.preventDefault();
 
     let date = new Date();
     date.setDate(date.getDate() + 100);
 
-    let schoolType = null;
-    const schoolName = this.state.schoolInfoQuery;
-    const matchKeywords = {
-      '고': 'high',
-      '중': 'middle',
-      '초': 'elementary'
-    };
-    for (let i = schoolName.length-1; i >= 0; i--) {
-      for (const keyword in matchKeywords) {
-        if (schoolName[i].match(keyword)) {
-          schoolType = matchKeywords[keyword];
-        }
-      }
-    }
-    if (!schoolType) {
-      return this.setState({
-        badgeColor: 'warning'
-      });
-    }
+    const schoolType = schoolInfos[event.target.value].type;
+    const schoolCode = schoolInfos[event.target.value].code;
 
     const { cookies } = this.props;
     cookies.set('schoolType', schoolType, {
       expires: date
     });
-    cookies.set('schoolCode', event.target.value, {
+    cookies.set('schoolCode', schoolCode, {
       expires: date
     });
 
@@ -83,16 +73,29 @@ class AppEntry extends Component {
   fetchSchoolInfos = (event) => {
     event.preventDefault();
 
-    const url = 'https://code.schoolmenukr.ml/api?q='+this.state.schoolInfoQuery;
-    fetch(url)
-    .then(response => response.json())
-    .then(data => data.school_infos)
-    .then(schoolInfos => { this.setState({schoolInfos}) })
-    .catch(error => console.error(error));
+    this.setState({
+      submitButtonDisabled: true
+    }, () => {
+      const url = 'https://code.schoolmenukr.ml/api?q='+this.state.schoolInfoQuery;
+
+      fetch(url)
+      .then(response => response.json())
+      .then(data => data.school_infos)
+      .then(schoolInfos => {
+        this.setState({ 
+          schoolInfos,
+          dropdownOpen: schoolInfos.length !== 0,
+          submitButtonDisabled: false
+        })
+      })
+      .catch(error => console.error(error));
+    });
   }
 
-  render() {
+  render() {  
     const { cookies } = this.props;
+    const { dropdownOpen, submitButtonDisabled } = this.state;
+
     if (cookies.get('schoolType') && cookies.get('schoolCode')) {
       return(
         <FetchMenu schoolType={cookies.get('schoolType')} onUserExit={this.removeCookies} schoolCode={cookies.get('schoolCode')} onDateChange={this.handleDateChange} />
@@ -100,17 +103,35 @@ class AppEntry extends Component {
     } else {
       return (
         <div className="_center">
-          <Badge color={this.state.badgeColor}>주의사항: 검색어에 '초', '중', '고'가 포함되어야 합니다</Badge>
-          <Form onSubmit={this.fetchSchoolInfos}>
-            <Input placeholder="학교 이름을 검색하세요" onChange={this.updateSchoolInfoQuery} />
-          </Form>
-          <ListGroup className="_schoolInfoList">
-            {
-              this.state.schoolInfos
-              ? this.state.schoolInfos.map((info, i) => <ListGroupItem onClick={this.saveData} value={info.code} key={i} tag="button" action>{info.address}</ListGroupItem>)
-              : ''
-            }
-          </ListGroup>
+          <Dropdown isOpen={dropdownOpen}>
+            <DropdownToggle tag="span">
+              <Form onSubmit={this.fetchSchoolInfos}>
+                <InputGroup style={{
+                  width: '350px'
+                }}>
+                  <Input placeholder="학교 이름을 검색하세요" onChange={this.updateSchoolInfoQuery} />
+                  <InputGroupAddon addonType="append">
+                    <Button outline color="primary" disabled={submitButtonDisabled}>
+                      {submitButtonDisabled ? "불러오는 중..." : "완료"}
+                    </Button>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Form>
+            </DropdownToggle>
+            <DropdownMenu style={{
+              maxHeight: '200px',
+              overflowY: 'scroll'
+            }}>
+              {
+                this.state.schoolInfos
+                ? this.state.schoolInfos.map((info, i) => (
+                  <DropdownItem onClick={this.saveData} value={i} key={i} tag="button" action>
+                    <strong>{info.name}</strong><br /><span>{info.address}</span>
+                  </DropdownItem>
+                )) : ''
+              }
+            </DropdownMenu>
+          </Dropdown>
         </div>
       )
     }
