@@ -4,10 +4,20 @@ import classnames from 'classnames';
 import './MenuCard.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'material-icons/iconfont/material-icons.css';
+import { Consumer } from './Context';
+
+/*
+  컴포넌트 역할:
+  - 컴포넌트 마운트 시 식단 요청하기(현재 날짜로)
+  - '어제', '내일' 버튼 클릭 시 contextState.date 변경하기
+    * 날짜 변경 시 변경된 날짜로 식단 요청하기
+  - 식단 보여주기
+*/
 
 class MenuCard extends Component {
   state = {
-    activeTab: '2'
+    activeTab: '2',
+    menu: null
   }
   
   toggleTab = (event) => {
@@ -19,14 +29,49 @@ class MenuCard extends Component {
     }
   }
 
-  changeDateToTomorrow = () => {
-    this.props.onDateChange(1)
+  fetchMenu = () => {
+    const { contextState } = this.props;
+
+    const date = new Date(contextState.date);
+    let year = date.getFullYear();
+    let dateOfMonth = date.getDate();
+    let month = date.getMonth() + 1;
+    
+    this.setState({
+      menu: null
+    }, async () => {
+      let url = `https://schoolmenukr.ml/api/${contextState.schoolType}/${contextState.schoolCode}`;
+      url += `?year=${year}&month=${month}&date=${dateOfMonth}`;
+
+      fetch(url)
+      .then(response => {
+        this.setState({
+          errorOccurred: false
+        });
+        return response.json()
+      })
+      .then(response => response.menu)
+      .then(menu => this.setState({ menu }))
+      .catch((err) => err);
+    });
   }
-  changeDateToYesterday = () => {
-    this.props.onDateChange(-1)
+
+  onClickEvent = (days) => {
+    const { contextState, setContextState } = this.props;
+
+    const date = new Date(contextState.date);
+    date.setDate(date.getDate() + days);
+
+    setContextState({ date }, this.fetchMenu);
+  }
+
+  componentDidMount() {
+    this.fetchMenu();
   }
 
   render() {
+    const { menu } = this.state;
+
     return (
       <div className="_card">
         <Nav pills fill>
@@ -62,8 +107,10 @@ class MenuCard extends Component {
           <TabPane tabId="1">
             <div className="_menuContent">
               {
-                this.props.menu ? (new Array(this.props.menu.breakfast))[0].map(
-                  (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
+                menu ? (
+                  menu.breakfast ? (
+                    menu.breakfast.map((menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>)
+                  ) : null
                 ) : null
               }
             </div>
@@ -71,8 +118,10 @@ class MenuCard extends Component {
           <TabPane tabId="2">
             <div className="_menuContent">
               {
-                this.props.menu ? (new Array(this.props.menu.lunch))[0].map(
-                  (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
+                menu ? (
+                  menu.lunch ? (
+                    menu.lunch.map((menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>)
+                  ) : null
                 ) : null
               }
             </div>
@@ -80,27 +129,25 @@ class MenuCard extends Component {
           <TabPane tabId="3">
             <div className="_menuContent">
               {
-                this.props.menu ? (new Array(this.props.menu.dinner))[0].map(
-                  (menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>
+                menu ? (
+                  menu.dinner ? (
+                    menu.dinner.map((menu, i) => <span className="_menuBlock" key={i}>{menu.replace(/\d|[.]/g, '')}</span>)
+                  ) : null
                 ) : null
               }
             </div>
           </TabPane>
         </TabContent>
         <div>
-          <Button color="link" onClick={this.changeDateToYesterday} className="_btnWithIcon" disabled={this.props.menu ? false : true}>
-            <i className="material-icons">
-              navigate_before
-            </i>
+          <Button color="link" onClick={() => this.onClickEvent(-1)} className="_btnWithIcon" disabled={menu ? false : true}>
+            <i className="material-icons">navigate_before</i>
             어제
           </Button>
-          <Button color="link" onClick={this.changeDateToTomorrow} className="_btnWithIcon" disabled={this.props.menu ? false : true}>
+          <Button color="link" onClick={() => this.onClickEvent(1)} className="_btnWithIcon" disabled={menu ? false : true}>
             내일
-            <i className="material-icons">
-              navigate_next
-            </i>
+            <i className="material-icons">navigate_next</i>
           </Button>
-          {!this.props.menu ? <Button color="link" onClick={this.changeDateToTomorrow} className="_btnWithIcon" disabled={true}>
+          {!menu ? <Button color="link" className="_btnWithIcon" disabled={true}>
             <i className="material-icons">
               refresh
             </i>
@@ -112,4 +159,10 @@ class MenuCard extends Component {
   }
 }
 
-export default MenuCard;
+export default () => (
+  <Consumer>
+    {
+      ({ contextState, setContextState }) => <MenuCard contextState={contextState} setContextState={setContextState} />
+    }
+  </Consumer>
+)

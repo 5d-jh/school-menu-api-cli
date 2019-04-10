@@ -4,9 +4,19 @@ import {
   Dropdown, DropdownItem, DropdownMenu, DropdownToggle,
   Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { withCookies } from 'react-cookie';
+import { Consumer } from './Context';
 import FetchMenu from './FetchMenu';
 import 'bootstrap/dist/css/bootstrap.css';
 import './AppEntry.css';
+
+/*
+  컴포넌트 역할:
+  - 컴포넌트 마운트 시 'schoolCode', 'schoolType' 쿠키 가져오기
+    * 쿠키 정보 유무에 따라 contextState.enabled 값 변경하기
+  - 학교 이름 입력 받아 학교 정보 요청하기(code.schoolmenukr.ml)
+  - 선택된 학교 정보 쿠키로 저장하기
+  - 렌더링 다시 하기
+*/
 
 class AppEntry extends Component {
   state = {
@@ -36,16 +46,15 @@ class AppEntry extends Component {
     });
   }
 
-  saveData = (event) => {
+  saveData = (i) => {
     const { schoolInfos } = this.state;
-
-    event.preventDefault();
+    
 
     let date = new Date();
     date.setDate(date.getDate() + 100);
 
-    const schoolType = schoolInfos[event.target.value].type;
-    const schoolCode = schoolInfos[event.target.value].code;
+    const schoolType = schoolInfos[i].type;
+    const schoolCode = schoolInfos[i].code;
 
     const { cookies } = this.props;
     cookies.set('schoolType', schoolType, {
@@ -55,19 +64,10 @@ class AppEntry extends Component {
       expires: date
     });
 
-    this.setState({schoolInfos: null});
-    
-    this.render();
-  }
-
-  removeCookies = () => {
-    const { cookies } = this.props;
-    cookies.remove('schoolType');
-    cookies.remove('schoolCode');
-  }
-
-  handleDateChange = (date) => {
-    this.props.onDateChange(date);
+    this.setState({schoolInfos: null, dropdownOpen: false}, () => {
+      this.fetchCookies();
+      this.render();
+    });
   }
 
   fetchSchoolInfos = (event) => {
@@ -92,16 +92,32 @@ class AppEntry extends Component {
     });
   }
 
+  fetchCookies = () => {
+    const { setContextState, cookies } = this.props;
+
+    const schoolCode = cookies.get('schoolCode');
+    const schoolType = cookies.get('schoolType');
+
+    setContextState({
+      enabled: Boolean(schoolCode) && Boolean(schoolType),
+      schoolType,
+      schoolCode,
+      cookies
+    });
+  }
+
+  componentDidMount() {
+    this.fetchCookies();
+  }
+
   render() {  
-    const { cookies } = this.props;
+    const { contextState } = this.props;
     const { dropdownOpen, submitButtonDisabled } = this.state;
 
-    if (cookies.get('schoolType') && cookies.get('schoolCode')) {
-      return(
-        <FetchMenu schoolType={cookies.get('schoolType')} onUserExit={this.removeCookies} schoolCode={cookies.get('schoolCode')} onDateChange={this.handleDateChange} />
-      )
-    } else {
-      return (
+    return (
+      contextState.enabled && contextState.schoolType && contextState.schoolCode ? (
+        <FetchMenu />
+       ) : (
         <div className="_center">
           <Dropdown isOpen={dropdownOpen}>
             <DropdownToggle tag="span">
@@ -125,7 +141,15 @@ class AppEntry extends Component {
               {
                 this.state.schoolInfos
                 ? this.state.schoolInfos.map((info, i) => (
-                  <DropdownItem onClick={this.saveData} value={i} key={i} tag="button" action>
+                  <DropdownItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.saveData(i);
+                    }}
+                    key={i} 
+                    tag="button" 
+                    action
+                  >
                     <strong>{info.name}</strong><br /><span>{info.address}</span>
                   </DropdownItem>
                 )) : ''
@@ -134,8 +158,16 @@ class AppEntry extends Component {
           </Dropdown>
         </div>
       )
-    }
+    )
   }
 }
 
-export default withCookies(AppEntry);
+export default withCookies(
+  ({ cookies }) => (
+    <Consumer>
+      {
+        ({ setContextState, contextState }) => <AppEntry setContextState={setContextState} contextState={contextState} cookies={cookies} />
+      }
+    </Consumer>
+  )
+);
