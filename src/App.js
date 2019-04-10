@@ -4,8 +4,8 @@ import { Container, Row, Col } from 'reactstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from './Context';
-import AppEntry from './AppEntry';
-import SideContent from './SideContent';
+import RightPane from './RightPane';
+import LeftPane from './LeftPane';
 
 class App extends Component {
   state = {
@@ -39,11 +39,11 @@ class App extends Component {
         <Container fluid={true}>
           <Row>
             <Col sm="4" className="_left">
-              <SideContent /> 
+              <LeftPane /> 
             </Col>
             <Col sm="8" className="_right">
               <CookiesProvider>
-                <AppEntry />
+                <RightPane />
               </CookiesProvider>
             </Col>
           </Row>

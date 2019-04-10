@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, NavItem, NavLink, TabPane, TabContent, Button } from 'reactstrap';
 import classnames from 'classnames';
-import './MenuCard.css';
+import './Menu.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'material-icons/iconfont/material-icons.css';
 import { Consumer } from './Context';
@@ -14,7 +14,7 @@ import { Consumer } from './Context';
   - 식단 보여주기
 */
 
-class MenuCard extends Component {
+class Menu extends Component {
   state = {
     activeTab: '2',
     menu: null
@@ -162,7 +162,7 @@ class MenuCard extends Component {
 export default () => (
   <Consumer>
     {
-      ({ contextState, setContextState }) => <MenuCard contextState={contextState} setContextState={setContextState} />
+      ({ contextState, setContextState }) => <Menu contextState={contextState} setContextState={setContextState} />
     }
   </Consumer>
 )

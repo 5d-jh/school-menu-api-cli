@@ -5,9 +5,10 @@ import {
   Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { withCookies } from 'react-cookie';
 import { Consumer } from './Context';
-import FetchMenu from './FetchMenu';
+import Menu from './Menu';
+import RightPaneDropdown from './RightPaneDropdown';
 import 'bootstrap/dist/css/bootstrap.css';
-import './AppEntry.css';
+import './RightPane.css';
 
 /*
   컴포넌트 역할:
@@ -18,7 +19,7 @@ import './AppEntry.css';
   - 렌더링 다시 하기
 */
 
-class AppEntry extends Component {
+class RightPane extends Component {
   state = {
     schoolInfoQuery: null,
     schoolInfos: null,
@@ -116,7 +117,10 @@ class AppEntry extends Component {
 
     return (
       contextState.enabled && contextState.schoolType && contextState.schoolCode ? (
-        <FetchMenu />
+        <>
+          <RightPaneDropdown />
+          <Menu />
+        </>
        ) : (
         <div className="_center">
           <Dropdown isOpen={dropdownOpen}>
@@ -166,7 +170,7 @@ export default withCookies(
   ({ cookies }) => (
     <Consumer>
       {
-        ({ setContextState, contextState }) => <AppEntry setContextState={setContextState} contextState={contextState} cookies={cookies} />
+        ({ setContextState, contextState }) => <RightPane setContextState={setContextState} contextState={contextState} cookies={cookies} />
       }
     </Consumer>
   )

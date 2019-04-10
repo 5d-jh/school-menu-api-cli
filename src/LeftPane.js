@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'material-icons/iconfont/material-icons.css';
-import './SideContent.css';
+import './LeftPane.css';
 import { Consumer } from './Context';
 
 /*
@@ -11,7 +11,7 @@ import { Consumer } from './Context';
 
 let week = ['일', '월', '화', '수', '목', '금', '토'];
 
-class Calendar extends Component {
+class LeftPane extends Component {
   render() {
     return (
       <Consumer>
@@ -41,4 +41,4 @@ class Calendar extends Component {
   }
 }
 
-export default Calendar
+export default LeftPane;

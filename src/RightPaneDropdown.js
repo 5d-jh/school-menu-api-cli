@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import 'material-icons/iconfont/material-icons.css';
-import './SubDropdownMenu.css';
+import './RightPaneDropdown.css';
 import { Consumer } from './Context';
 
-class SubDropdownMenu extends Component {
+class RightPaneDropdown extends Component {
   state = {
     dropdownOpen: false
   }
@@ -58,7 +58,7 @@ export default () => (
   <Consumer>
     {
       ({ contextState: { cookies, schoolCode }, setContextState }) => (
-        <SubDropdownMenu cookies={cookies} schoolCode={schoolCode} setContextState={setContextState} />
+        <RightPaneDropdown cookies={cookies} schoolCode={schoolCode} setContextState={setContextState} />
       )
     }
   </Consumer>
